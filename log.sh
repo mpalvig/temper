@@ -2,6 +2,6 @@
 
 while [ 1 ]
 do
-    ./temper
-    sleep 5s
+	echo "$(date +%s) $(./temper)"
+    sleep 2s
 done
