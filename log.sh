@@ -3,5 +3,5 @@
 while [ 1 ]
 do
 	echo "$(date +%s) $(./temper)"
-    sleep 2s
+    sleep 1s
 done
