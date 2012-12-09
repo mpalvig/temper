@@ -24,22 +24,30 @@ int main(){
         return 1;
     }
 
-    tempc = pcsensor_get_temperature(lvr_winusb);
+    while (1) {
+
+        /*printf("press enter to get temp\n");*/
+        fflush(stdout);
+        getchar();
+        
+        tempc = pcsensor_get_temperature(lvr_winusb);
+
+        if (!(tempc > -0.0001 && tempc < 0.0001)) {
+            /* Apply calibrations */
+            tempc = (tempc * scale) + offset;
+
+            printf("%f\n", tempc);
+            fflush(stdout);
+
+        }
+        else {
+            printf("Temperature is zero, probably error\n");
+            fflush(stdout);
+        }
+    }
+
     pcsensor_close(lvr_winusb);
 
-    if (!(tempc > -0.0001 && tempc < 0.0001)) {
-        /* Apply calibrations */
-        tempc = (tempc * scale) + offset;
+    return 0;
 
-        printf("%f\n", tempc);
-        fflush(stdout);
-
-        return 0;
-    }
-    else {
-        printf("Temperature is zero, probably error\n");
-        fflush(stdout);
-        return 2;
-    }
 }
-
