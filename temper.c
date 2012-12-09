@@ -15,7 +15,6 @@ static float offset = -0.60;
 
 int main(){
 	float tempc = 0.0000;
-    int i;
 
     usb_dev_handle* lvr_winusb = pcsensor_open();
     if (!lvr_winusb) {
@@ -25,28 +24,22 @@ int main(){
         return 1;
     }
 
-    for (i = 0; i < 40; ++i)
-    {
-        
-        tempc = pcsensor_get_temperature(lvr_winusb);
-
-        if (!(tempc > -0.0001 && tempc < 0.0001)) {
-            /* Apply calibrations */
-            tempc = (tempc * scale) + offset;
-
-            printf("%f\n", tempc);
-            fflush(stdout);
-
-            /*return 0;*/
-        }
-        else {
-            printf("Temperature is zero, probably error\n");
-            fflush(stdout);
-            /*return 2;*/
-        }
-        sleep(1);
-    }
+    tempc = pcsensor_get_temperature(lvr_winusb);
     pcsensor_close(lvr_winusb);
-    return 0;
 
+    if (!(tempc > -0.0001 && tempc < 0.0001)) {
+        /* Apply calibrations */
+        tempc = (tempc * scale) + offset;
+
+        printf("%f\n", tempc);
+        fflush(stdout);
+
+        return 0;
+    }
+    else {
+        printf("Temperature is zero, probably error\n");
+        fflush(stdout);
+        return 2;
+    }
 }
+
