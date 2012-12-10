@@ -15,6 +15,7 @@ static float offset = -0.60;
 
 int main(){
 	float tempc = 0.0000;
+    char c;
 
     usb_dev_handle* lvr_winusb = pcsensor_open();
     if (!lvr_winusb) {
@@ -28,8 +29,8 @@ int main(){
 
         /*printf("press enter to get temp\n");*/
         fflush(stdout);
-        getchar();
-        
+        while((c = getchar()) != '\n' && c != EOF){}
+
         tempc = pcsensor_get_temperature(lvr_winusb);
 
         if (!(tempc > -0.0001 && tempc < 0.0001)) {
